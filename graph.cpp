@@ -45,6 +45,8 @@ std::vector<std::vector<int>> Graph::search(id_t id_begin, id_t id_final, bool f
     results.clear();
     if (!neighbours.contains(id_begin))
         return {};
+    if (id_begin == id_final)
+        return {};
     for (auto id : neighbours[id_begin]) {
         std::vector<id_t> path {id, };
         dfs(id, id_final, path);
