@@ -3,4 +3,4 @@ project(transmissionmanager)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(transmissionmanager main.cpp graph.h date.h tests.h test_runner.h)
+add_executable(transmissionmanager main.cpp graph.h date.h tests.h test_runner.h graph.cpp date.cpp)

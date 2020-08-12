@@ -1,4 +1,4 @@
-#pragma optimize( "", off )
+#pragma optimize( "", on )
 
 #include <iostream>
 #include <fstream>
@@ -8,10 +8,11 @@
 void runTests(){
     TestRunner tr;
     tr.RunTest(TestNS::TestDate, "TestDate");
+    tr.RunTest(TestNS::TestGraph, "TestGraph");
 }
 
 int main(int argc, char* argv[]) {
-    // runTests();
+    //runTests();
     try {
         std::string filename = "C:/Users/kaluz/CLionProjects/transmissionmanager/data.csv";
         std::fstream file;
@@ -30,10 +31,11 @@ int main(int argc, char* argv[]) {
             ss >> tr;
             graph.insert(tr.id, tr);
         }
-        graph.search(1929, 1937);
+        graph.search(1902, 1937, true);
     }
     catch (std::exception& e) {
-        std::cout << "ERROR: " << e.what() << std::endl;
+        std::cerr << "ERROR: " << e.what() << std::endl;
+        return -1;
     }
     std::cin.get();
     return 0;
