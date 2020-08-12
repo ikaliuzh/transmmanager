@@ -73,9 +73,12 @@ std::vector<std::vector<int>> Graph::search(id_t id_begin, id_t id_final, bool f
     std::vector<std::vector<id_t>> resultFinal;
     int j = 0;
     for (const auto& r : resultSqueezed){
+        ++j;
         resultFinal.push_back(results[r.idx]);
-        if(!flag) continue;
-        std::cout << "#" << ++j;
+        if (!flag) continue;
+        if (j == 6) std::cout << "And " << results.size() - j << " more results found" << std::endl << std::endl << std::endl;
+        if(j >= 6) continue;
+        std::cout << "#" << j;
         for (int i =0; i + 1 < results[r.idx].size(); ++i) {
              std::cout << transmissions[results[r.idx][i]] << std::endl;
             std::cout << "Wait for " << transmissions[results[r.idx][i + 1]].t_departure -
@@ -87,6 +90,13 @@ std::vector<std::vector<int>> Graph::search(id_t id_begin, id_t id_final, bool f
             std::cout << "-";
         std::cout << ">>" << std::endl;
         std::cout << "Total: " << r.price << "$`, " << r.date.print() << std::endl << std::endl << std::endl;
+    }
+    if (resultFinal.size() == 0)
+        std::cout << "No available transmissions\n\n\n";
+    if (flag) {
+        for (int i = 0; i < 35; ++i)
+            std::cout << ".";
+        std::cout << std::endl;
     }
     return resultFinal;
 }

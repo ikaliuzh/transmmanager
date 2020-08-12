@@ -1,9 +1,12 @@
 #pragma optimize( "", on )
 
 #include <iostream>
+#include <filesystem>
 #include <fstream>
 #include "tests.h"
 #include "graph.h"
+
+namespace fs = std::filesystem;
 
 void runTests(){
     TestRunner tr;
@@ -12,15 +15,22 @@ void runTests(){
 }
 
 int main(int argc, char* argv[]) {
-    //runTests();
+    int exitcode = 0;
+    // runTests();
     try {
-        std::string filename = "C:/Users/kaluz/CLionProjects/transmissionmanager/data.csv";
+        fs::path p = fs::current_path();
+        std::cout << "Current path: " << p << std::endl;
+        std::cout << "Enter path to file with data:\n>>>  ";
+        std::string filename;
+        std::cin >> filename;
         std::fstream file;
         file.open(filename, std::ios::in);
         if (!file.is_open())
             throw std::runtime_error(
                     "Failed to open file " + filename
             );
+        else
+            std::cout << "Opened successfully\n";
         Graph graph;
         std::string line;
         getline(file, line);
@@ -31,12 +41,20 @@ int main(int argc, char* argv[]) {
             ss >> tr;
             graph.insert(tr.id, tr);
         }
-        graph.search(1902, 1937, true);
+        std::string inputline;
+        std::cout << "Enter start and final points:" << std::endl;
+        while(true){
+            int first, second;
+            std::cin >> first;
+            if (std::cin.peek() == ',') std::cin.ignore();
+            std::cin >> second;
+            graph.search(first, second, true);
+        }
     }
     catch (std::exception& e) {
         std::cerr << "ERROR: " << e.what() << std::endl;
-        return -1;
+        exitcode = -1;
     }
     std::cin.get();
-    return 0;
+    return exitcode;
 }
